@@ -47,14 +47,34 @@ function e.bm_changePlayerType()
 	end
 end
 
-function e.bm_changeCamo(camo)
-	local bm_PlayerCamoTypes={PlayerCamoType.OLIVEDRAB, PlayerCamoType.SPLITTER, PlayerCamoType.SQUARE, PlayerCamoType.TIGERSTRIPE, PlayerCamoType.GOLDTIGER, PlayerCamoType.FOXTROT, PlayerCamoType.WOODLAND, PlayerCamoType.WETWORK, PlayerCamoType.SNEAKING_SUIT_GZ, PlayerCamoType.SNEAKING_SUIT_TPP, PlayerCamoType.BATTLEDRESS, PlayerCamoType.PARASITE, PlayerCamoType.LEATHER, PlayerCamoType.SOLIDSNAKE, PlayerCamoType.NINJA, PlayerCamoType.RAIDEN, PlayerCamoType.REALTREE, PlayerCamoType.PANTHER,
-	--PlayerCamoType.MGS3, PlayerCamoType.MGS3_NAKED, PlayerCamoType.MGS3_SNEAKING, PlayerCamoType.MGS3_TUXEDO, PlayerCamoType.EVA_CLOSE, PlayerCamoType.EVA_OPEN, PlayerCamoType.BOSS_CLOSE, PlayerCamoType.BOSS_OPEN
-	}
+function e.bm_changePlayerFace(changeby)
 
+	if changeby == nil then
+		changeby = 0
+	end
+
+	local playerface = vars.playerFaceId + changeby
+	
+	if playerface < 0 then
+		playerface = 0
+	end
+
+	if playerface > 9999 then
+		playerface = 9999
+	end
+	
+	vars.playerFaceId=playerface
+
+	TppUiCommand.AnnounceLogDelayTime(0)
+	TppUiCommand.AnnounceLogView(string.format("Face ID: %d", vars.playerFaceId))
+
+end
+
+function e.bm_changeCamo(camo)
 	if (camo == PlayerCamoType.SNEAKING_SUIT_GZ and vars.playerType ~= PlayerType.SNAKE) then
 		TppUiCommand.AnnounceLogDelayTime(0)
 		TppUiCommand.AnnounceLogView("Only the Snake player type can use this camo.")
+		do return end
 	end
 
 	if ((camo == PlayerCamoType.MGS3 or
@@ -64,7 +84,8 @@ function e.bm_changeCamo(camo)
 		and (vars.playerType == PlayerType.DD_FEMALE))
 	then
 		TppUiCommand.AnnounceLogDelayTime(0)
-		TppUiCommand.AnnounceLogView("Only the Snake player type can use this camo.")
+		TppUiCommand.AnnounceLogView("The DD Female player type cannot use this camo.")
+		do return end
 	end
 	
 	if ((camo == PlayerCamoType.EVA_CLOSE or
@@ -75,6 +96,7 @@ function e.bm_changeCamo(camo)
 	then
 		TppUiCommand.AnnounceLogDelayTime(0)
 		TppUiCommand.AnnounceLogView("The DD Male player type cannot use this camo.")
+		do return end
 	end
 	
 	vars.playerCamoType=camo
@@ -92,36 +114,82 @@ function e.bm_changeWeather()
 	end
 end
 
+function e.bm_changeTimescale(changeby)
+	if changeby == nil then
+		changeby = 0
+	end
+
+	if (e.bm_ClockTimeScale == nil or e.menu_item_highlighted == 5) then
+		e.bm_ClockTimeScale = 20
+	end
+
+	e.bm_ClockTimeScale = e.bm_ClockTimeScale + changeby
+
+	if e.bm_ClockTimeScale < 0 then
+		e.bm_ClockTimeScale = 0
+	end
+
+	if e.bm_ClockTimeScale > 9999 then
+		e.bm_ClockTimeScale = 9999
+	end
+
+	TppCommand.Weather.SetClockTimeScale(e.bm_ClockTimeScale)
+
+	TppUiCommand.AnnounceLogDelayTime(0)
+	TppUiCommand.AnnounceLogView(string.format("Timescale: %d", e.bm_ClockTimeScale))
+end
+
 function e.menu_set()
 	e.menu_title = "bm_main_title"
 
 	if (e.menu_level == 1) then
 		e.menu_addItem("bm_playertype")
+		e.menu_addItem("bm_playerface")
 		e.menu_addItem("bm_camo")
 		e.menu_addItem("bm_weather")
+		e.menu_addItem("bm_timescale")
 	elseif (e.menu_level == 2) then
 		if (e.menu_last_selected[1] == 1) then
+			e.menu_title = "bm_playertype"
 			e.menu_addItem_action("bm_playertype_snake", e.bm_changePlayerType)
 			e.menu_addItem_action("bm_playertype_dd_male", e.bm_changePlayerType)
 			e.menu_addItem_action("bm_playertype_dd_female", e.bm_changePlayerType)
 			e.menu_addItem_action("bm_playertype_avatar", e.bm_changePlayerType)
 		elseif (e.menu_last_selected[1] == 2) then
+			e.menu_title = "bm_playerface"
+			e.menu_addItem_action("bm_playerface_up_1", e.bm_changePlayerFace, 1)
+			e.menu_addItem_action("bm_playerface_up_10", e.bm_changePlayerFace, 10)
+			e.menu_addItem_action("bm_playerface_up_100", e.bm_changePlayerFace, 100)
+			e.menu_addItem_action("bm_playerface_down_1", e.bm_changePlayerFace, -1)
+			e.menu_addItem_action("bm_playerface_down_10", e.bm_changePlayerFace, -10)
+			e.menu_addItem_action("bm_playerface_down_100", e.bm_changePlayerFace, -100)
+		elseif (e.menu_last_selected[1] == 3) then
+			e.menu_title = "bm_camo"
 			e.menu_addItem_action("bm_camo_olivedrab", e.bm_changeCamo, PlayerCamoType.OLIVEDRAB)
 			e.menu_addItem_action("bm_camo_splitter", e.bm_changeCamo, PlayerCamoType.SPLITTER)
 			e.menu_addItem_action("bm_camo_square", e.bm_changeCamo, PlayerCamoType.SQUARE)
 			e.menu_addItem_action("bm_camo_tigerstripe", e.bm_changeCamo, PlayerCamoType.TIGERSTRIPE)
 			e.menu_addItem_action("bm_camo_goldtiger", e.bm_changeCamo, PlayerCamoType.GOLDTIGER)
 			e.menu_addItem("bm_next")
-		elseif (e.menu_last_selected[1] == 3) then
+		elseif (e.menu_last_selected[1] == 4) then
+			e.menu_title = "bm_weather"
 			e.menu_addItem_action("bm_weather_sunny", e.bm_changeWeather)
 			e.menu_addItem_action("bm_weather_cloudy", e.bm_changeWeather)
 			e.menu_addItem_action("bm_weather_rainy", e.bm_changeWeather)
 			e.menu_addItem_action("bm_weather_sandstorm", e.bm_changeWeather)
 			e.menu_addItem_action("bm_weather_foggy", e.bm_changeWeather)
 			e.menu_addItem_action("bm_reset", e.bm_changeWeather)
+		elseif (e.menu_last_selected[1] == 5) then
+			e.menu_title = "bm_timescale"
+			e.menu_addItem_action("bm_timescale_up_10", e.bm_changeTimescale, 10)
+			e.menu_addItem_action("bm_timescale_up_100", e.bm_changeTimescale, 100)
+			e.menu_addItem_action("bm_timescale_down_10", e.bm_changeTimescale, -10)
+			e.menu_addItem_action("bm_timescale_down_100", e.bm_changeTimescale, -100)	
+			e.menu_addItem_action("bm_reset", e.bm_changeTimescale)
 		end
 	elseif (e.menu_level == 3) then
-		if (e.menu_last_selected[1] == 2 and e.menu_last_selected[2] == 6) then
+		if (e.menu_last_selected[1] == 3 and e.menu_last_selected[2] == 6) then
+			e.menu_title = "bm_camo"
 			e.menu_addItem_action("bm_camo_foxtrot", e.bm_changeCamo, PlayerCamoType.FOXTROT)
 			e.menu_addItem_action("bm_camo_woodland", e.bm_changeCamo, PlayerCamoType.WOODLAND)
 			e.menu_addItem_action("bm_camo_wetwork", e.bm_changeCamo, PlayerCamoType.WETWORK)
@@ -130,7 +198,8 @@ function e.menu_set()
 			e.menu_addItem("bm_next")
 		end
 	elseif (e.menu_level == 4) then
-		if (e.menu_last_selected[1] == 2 and e.menu_last_selected[2] == 6) then
+		if (e.menu_last_selected[1] == 3 and e.menu_last_selected[2] == 6) then
+			e.menu_title = "bm_camo"
 			e.menu_addItem_action("bm_camo_battledress", e.bm_changeCamo, PlayerCamoType.BATTLEDRESS)
 			e.menu_addItem_action("bm_camo_parasite", e.bm_changeCamo, PlayerCamoType.PARASITE)
 			e.menu_addItem_action("bm_camo_leather", e.bm_changeCamo, PlayerCamoType.LEATHER)
@@ -139,7 +208,8 @@ function e.menu_set()
 			e.menu_addItem("bm_next")
 		end
 	elseif (e.menu_level == 5) then
-		if (e.menu_last_selected[1] == 2 and e.menu_last_selected[2] == 6) then
+		if (e.menu_last_selected[1] == 3 and e.menu_last_selected[2] == 6) then
+			e.menu_title = "bm_camo"
 			e.menu_addItem_action("bm_camo_raiden", e.bm_changeCamo, PlayerCamoType.RAIDEN)
 			e.menu_addItem_action("bm_camo_realtree", e.bm_changeCamo, PlayerCamoType.REALTREE)
 			e.menu_addItem_action("bm_camo_panther", e.bm_changeCamo, PlayerCamoType.PANTHER)
@@ -223,19 +293,38 @@ function e.GetButtonJustReleased(button)
 		e.button_pressed_time[button] = os.clock()
 
 		vars.playerDisableActionFlag=PlayerDisableAction.OPEN_EQUIP_MENU
+
+		--Player.RequestToSetTargetStance(PlayerStance.STAND)
+		
+		Player.SetPadMask {
+			settingName	= "bm_disableStance",
+			except		= false,
+			buttons		= PlayerPad.STANCE + PlayerPad.PRIMARY_WEAPON + PlayerPad.SECONDARY_WEAPON,
+		}
+
 		e.disable_equip_action = true
 	end
 
 	return false
 end
 
+function e.menu_shutdown()
+	TppUiCommand.StopTelopCast()
+	TppUiCommand.AllResetTelopCast()
+	e.menu_drawn = false
+	e.menu_skip_frame = os.clock()
+end
+
 function e.Update()
 	if e.disable_equip_action then
 		vars.playerDisableActionFlag=PlayerDisableAction.NONE
+		Player.ResetPadMask {
+			settingName	= "bm_disableStance", 
+		}
 		e.disable_equip_action = false
 	end
 
-	if (e.menu_open) then
+	if (e.menu_open and not TppUiCommand.IsMbDvcTerminalOpened()) then
 		if e.menu_not_holding_open then
 			if (e.GetButtonJustReleased(PlayerPad.STANCE)) then
 				if not e.menu_items_action[e.menu_item_highlighted] then
@@ -243,10 +332,7 @@ function e.Update()
 					e.menu_level = e.menu_level + 1
 					e.menu_item_highlighted = 1
 
-					TppUiCommand.StopTelopCast()
-					TppUiCommand.AllResetTelopCast()
-					e.menu_drawn = false
-					e.menu_skip_frame = os.clock()
+					e.menu_shutdown()
 				else
 					e.menu_items_action_func[e.menu_item_highlighted](e.menu_items_action_param[e.menu_item_highlighted])
 				end
@@ -257,10 +343,10 @@ function e.Update()
 					e.menu_level = e.menu_level - 1
 					e.menu_item_highlighted = e.menu_last_selected[e.menu_level]
 
-					TppUiCommand.StopTelopCast()
-					TppUiCommand.AllResetTelopCast()
-					e.menu_drawn = false
-					e.menu_skip_frame = os.clock()
+					e.menu_shutdown()
+				else
+					e.menu_shutdown()
+					e.menu_open = false
 				end
 			end
 
@@ -285,16 +371,12 @@ function e.Update()
 				TppUiCommand.EraseTelopCast("LeftCenter")
 				e.menu_drawn = false
 				
-				--TppUiCommand.AnnounceLogDelayTime(0)
-				--TppUiCommand.AnnounceLogView("Down")
 			end
 		end
 
 		if (not e.menu_drawn) then
 			if (e.menu_skip_frame > 0) then
 				if (os.clock() - e.menu_skip_frame > 0.30) then
-					--TppUiCommand.AnnounceLogDelayTime(0)
-					--TppUiCommand.AnnounceLogView("menu_skip_frame")
 					e.menu_reset()
 
 					e.menu_set()
@@ -325,7 +407,7 @@ function e.Update()
 			e.hold_pressed = Time.GetRawElapsedTimeSinceStartUp()
 
 			if (bit.band(PlayerVars.scannedButtonsDirect,PlayerPad.PRIMARY_WEAPON)==PlayerPad.PRIMARY_WEAPON) then
-				--TppUiCommand.AllResetTelopCast()
+				e.menu_shutdown()
 				e.menu_open = not e.menu_open
 				e.menu_not_holding_open = false
 			end
