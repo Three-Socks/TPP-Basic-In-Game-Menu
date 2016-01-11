@@ -213,6 +213,18 @@ function e.menu_set()
 			e.menu_addItem_action("bm_camo_raiden", e.bm_changeCamo, PlayerCamoType.RAIDEN)
 			e.menu_addItem_action("bm_camo_realtree", e.bm_changeCamo, PlayerCamoType.REALTREE)
 			e.menu_addItem_action("bm_camo_panther", e.bm_changeCamo, PlayerCamoType.PANTHER)
+			e.menu_addItem_action("bm_camo_mgs3", e.bm_changeCamo, PlayerCamoType.PANTHER)
+			e.menu_addItem_action("bm_camo_mgs3_naked", e.bm_changeCamo, PlayerCamoType.PANTHER)
+			e.menu_addItem("bm_next")
+		end
+	elseif (e.menu_level == 5) then
+		if (e.menu_last_selected[1] == 3 and e.menu_last_selected[2] == 6) then
+			e.menu_addItem_action("bm_camo_mgs3_sneaking", e.bm_changeCamo, PlayerCamoType.PANTHER)
+			e.menu_addItem_action("bm_camo_mgs3_tuxedo", e.bm_changeCamo, PlayerCamoType.PANTHER)
+			e.menu_addItem_action("bm_camo_eva_close", e.bm_changeCamo, PlayerCamoType.PANTHER)
+			e.menu_addItem_action("bm_camo_eva_open", e.bm_changeCamo, PlayerCamoType.PANTHER)
+			e.menu_addItem_action("bm_camo_boss_close", e.bm_changeCamo, PlayerCamoType.PANTHER)
+			e.menu_addItem_action("bm_camo_boss_open", e.bm_changeCamo, PlayerCamoType.PANTHER)
 		end
 	end
 end
@@ -285,6 +297,7 @@ function e.GetButtonJustReleased(button)
 
 	if (e.button_pressed[button] and bit.band(PlayerVars.scannedButtonsDirect,button)~=button and os.clock() - e.button_pressed_time[button] > 0.23) then
 		e.button_pressed[button] = false
+		--Player.RequestToSetTargetStance(PlayerStance.STAND)
 		return true
 	end
 
@@ -294,14 +307,6 @@ function e.GetButtonJustReleased(button)
 
 		vars.playerDisableActionFlag=PlayerDisableAction.OPEN_EQUIP_MENU
 
-		--Player.RequestToSetTargetStance(PlayerStance.STAND)
-		
-		Player.SetPadMask {
-			settingName	= "bm_disableStance",
-			except		= false,
-			buttons		= PlayerPad.STANCE + PlayerPad.PRIMARY_WEAPON + PlayerPad.SECONDARY_WEAPON,
-		}
-
 		e.disable_equip_action = true
 	end
 
@@ -309,6 +314,9 @@ function e.GetButtonJustReleased(button)
 end
 
 function e.menu_shutdown()
+	Player.ResetPadMask {
+		settingName	= "bm_disableStance", 
+	}
 	TppUiCommand.StopTelopCast()
 	TppUiCommand.AllResetTelopCast()
 	e.menu_drawn = false
@@ -318,9 +326,6 @@ end
 function e.Update()
 	if e.disable_equip_action then
 		vars.playerDisableActionFlag=PlayerDisableAction.NONE
-		Player.ResetPadMask {
-			settingName	= "bm_disableStance", 
-		}
 		e.disable_equip_action = false
 	end
 
@@ -402,18 +407,25 @@ function e.Update()
 
 	if (bit.band(PlayerVars.scannedButtonsDirect,PlayerPad.RELOAD)==PlayerPad.RELOAD) then
 
-		if (Time.GetRawElapsedTimeSinceStartUp() - e.hold_pressed > 2) then
+		if (Time.GetRawElapsedTimeSinceStartUp() - e.menu_hold_pressed > 2) and not(e.menu_unload_hold_pressed) then
 
-			e.hold_pressed = Time.GetRawElapsedTimeSinceStartUp()
+			e.menu_hold_pressed = Time.GetRawElapsedTimeSinceStartUp()
+			e.menu_unload_hold_pressed = true
 
 			if (bit.band(PlayerVars.scannedButtonsDirect,PlayerPad.PRIMARY_WEAPON)==PlayerPad.PRIMARY_WEAPON) then
 				e.menu_shutdown()
+				Player.SetPadMask {
+					settingName	= "bm_disableStance",
+					except		= false,
+					buttons		= PlayerPad.STANCE + PlayerPad.PRIMARY_WEAPON + PlayerPad.SECONDARY_WEAPON,
+				}
 				e.menu_open = not e.menu_open
 				e.menu_not_holding_open = false
 			end
 		end
 	else
-		e.hold_pressed = Time.GetRawElapsedTimeSinceStartUp()
+		e.menu_unload_hold_pressed = false
+		e.menu_hold_pressed = Time.GetRawElapsedTimeSinceStartUp()
 	end
 
 end
