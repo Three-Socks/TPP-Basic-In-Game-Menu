@@ -4,6 +4,7 @@ e.menu_last_selected={}
 e.button_pressed={}
 e.button_pressed_time={}
 e.menu_skip_frame = 0
+
 function e.OnAllocate()end
 function e.OnInitialize()end
 
@@ -165,12 +166,9 @@ function e.menu_set()
 			e.menu_addItem_action("bm_playerface_down_100", e.bm_changePlayerFace, -100)
 		elseif (e.menu_last_selected[1] == 3) then
 			e.menu_title = "bm_camo"
-			e.menu_addItem_action("bm_camo_olivedrab", e.bm_changeCamo, PlayerCamoType.OLIVEDRAB)
-			e.menu_addItem_action("bm_camo_splitter", e.bm_changeCamo, PlayerCamoType.SPLITTER)
-			e.menu_addItem_action("bm_camo_square", e.bm_changeCamo, PlayerCamoType.SQUARE)
-			e.menu_addItem_action("bm_camo_tigerstripe", e.bm_changeCamo, PlayerCamoType.TIGERSTRIPE)
-			e.menu_addItem_action("bm_camo_goldtiger", e.bm_changeCamo, PlayerCamoType.GOLDTIGER)
-			e.menu_addItem("bm_next")
+			e.menu_addItem("bm_camo_normal")
+			e.menu_addItem("bm_camo_special")
+			e.menu_addItem("bm_camo_dlc")
 		elseif (e.menu_last_selected[1] == 4) then
 			e.menu_title = "bm_weather"
 			e.menu_addItem_action("bm_weather_sunny", e.bm_changeWeather)
@@ -188,43 +186,39 @@ function e.menu_set()
 			e.menu_addItem_action("bm_reset", e.bm_changeTimescale)
 		end
 	elseif (e.menu_level == 3) then
-		if (e.menu_last_selected[1] == 3 and e.menu_last_selected[2] == 6) then
+		if (e.menu_last_selected[1] == 3) then
 			e.menu_title = "bm_camo"
-			e.menu_addItem_action("bm_camo_foxtrot", e.bm_changeCamo, PlayerCamoType.FOXTROT)
-			e.menu_addItem_action("bm_camo_woodland", e.bm_changeCamo, PlayerCamoType.WOODLAND)
-			e.menu_addItem_action("bm_camo_wetwork", e.bm_changeCamo, PlayerCamoType.WETWORK)
-			e.menu_addItem_action("bm_camo_ss_gz", e.bm_changeCamo, PlayerCamoType.SNEAKING_SUIT_GZ)
-			e.menu_addItem_action("bm_camo_ss_tpp", e.bm_changeCamo, PlayerCamoType.SNEAKING_SUIT_TPP)
-			e.menu_addItem("bm_next")
-		end
-	elseif (e.menu_level == 4) then
-		if (e.menu_last_selected[1] == 3 and e.menu_last_selected[2] == 6) then
-			e.menu_title = "bm_camo"
-			e.menu_addItem_action("bm_camo_battledress", e.bm_changeCamo, PlayerCamoType.BATTLEDRESS)
-			e.menu_addItem_action("bm_camo_parasite", e.bm_changeCamo, PlayerCamoType.PARASITE)
-			e.menu_addItem_action("bm_camo_leather", e.bm_changeCamo, PlayerCamoType.LEATHER)
-			e.menu_addItem_action("bm_camo_solid_snake", e.bm_changeCamo, PlayerCamoType.SOLIDSNAKE)
-			e.menu_addItem_action("bm_camo_ninja", e.bm_changeCamo, PlayerCamoType.NINJA)
-			e.menu_addItem("bm_next")
-		end
-	elseif (e.menu_level == 5) then
-		if (e.menu_last_selected[1] == 3 and e.menu_last_selected[2] == 6) then
-			e.menu_title = "bm_camo"
-			e.menu_addItem_action("bm_camo_raiden", e.bm_changeCamo, PlayerCamoType.RAIDEN)
-			e.menu_addItem_action("bm_camo_realtree", e.bm_changeCamo, PlayerCamoType.REALTREE)
-			e.menu_addItem_action("bm_camo_panther", e.bm_changeCamo, PlayerCamoType.PANTHER)
-			e.menu_addItem_action("bm_camo_mgs3", e.bm_changeCamo, PlayerCamoType.PANTHER)
-			e.menu_addItem_action("bm_camo_mgs3_naked", e.bm_changeCamo, PlayerCamoType.PANTHER)
-			e.menu_addItem("bm_next")
-		end
-	elseif (e.menu_level == 5) then
-		if (e.menu_last_selected[1] == 3 and e.menu_last_selected[2] == 6) then
-			e.menu_addItem_action("bm_camo_mgs3_sneaking", e.bm_changeCamo, PlayerCamoType.PANTHER)
-			e.menu_addItem_action("bm_camo_mgs3_tuxedo", e.bm_changeCamo, PlayerCamoType.PANTHER)
-			e.menu_addItem_action("bm_camo_eva_close", e.bm_changeCamo, PlayerCamoType.PANTHER)
-			e.menu_addItem_action("bm_camo_eva_open", e.bm_changeCamo, PlayerCamoType.PANTHER)
-			e.menu_addItem_action("bm_camo_boss_close", e.bm_changeCamo, PlayerCamoType.PANTHER)
-			e.menu_addItem_action("bm_camo_boss_open", e.bm_changeCamo, PlayerCamoType.PANTHER)
+
+			if (e.menu_last_selected[2] == 1) then
+				e.menu_addItem_action("bm_camo_olivedrab", e.bm_changeCamo, PlayerCamoType.OLIVEDRAB)
+				e.menu_addItem_action("bm_camo_splitter", e.bm_changeCamo, PlayerCamoType.SPLITTER)
+				e.menu_addItem_action("bm_camo_square", e.bm_changeCamo, PlayerCamoType.SQUARE)
+				e.menu_addItem_action("bm_camo_tigerstripe", e.bm_changeCamo, PlayerCamoType.TIGERSTRIPE)
+				e.menu_addItem_action("bm_camo_goldtiger", e.bm_changeCamo, PlayerCamoType.GOLDTIGER)
+				e.menu_addItem_action("bm_camo_foxtrot", e.bm_changeCamo, PlayerCamoType.FOXTROT)
+				e.menu_addItem_action("bm_camo_woodland", e.bm_changeCamo, PlayerCamoType.WOODLAND)
+				e.menu_addItem_action("bm_camo_wetwork", e.bm_changeCamo, PlayerCamoType.WETWORK)
+				e.menu_addItem_action("bm_camo_realtree", e.bm_changeCamo, PlayerCamoType.REALTREE)
+				e.menu_addItem_action("bm_camo_panther", e.bm_changeCamo, PlayerCamoType.PANTHER)
+			elseif (e.menu_last_selected[2] == 2) then
+				e.menu_addItem_action("bm_camo_ss_gz", e.bm_changeCamo, PlayerCamoType.SNEAKING_SUIT_GZ)
+				e.menu_addItem_action("bm_camo_ss_tpp", e.bm_changeCamo, PlayerCamoType.SNEAKING_SUIT_TPP)
+				e.menu_addItem_action("bm_camo_battledress", e.bm_changeCamo, PlayerCamoType.BATTLEDRESS)
+				e.menu_addItem_action("bm_camo_parasite", e.bm_changeCamo, PlayerCamoType.PARASITE)
+				e.menu_addItem_action("bm_camo_leather", e.bm_changeCamo, PlayerCamoType.LEATHER)
+				e.menu_addItem_action("bm_camo_solid_snake", e.bm_changeCamo, PlayerCamoType.SOLIDSNAKE)
+				e.menu_addItem_action("bm_camo_ninja", e.bm_changeCamo, PlayerCamoType.NINJA)
+				e.menu_addItem_action("bm_camo_raiden", e.bm_changeCamo, PlayerCamoType.RAIDEN)
+			elseif (e.menu_last_selected[2] == 3) then
+				e.menu_addItem_action("bm_camo_mgs3", e.bm_changeCamo, PlayerCamoType.MGS3)
+				e.menu_addItem_action("bm_camo_mgs3_naked", e.bm_changeCamo, PlayerCamoType.MGS3_NAKED)
+				e.menu_addItem_action("bm_camo_mgs3_sneaking", e.bm_changeCamo, PlayerCamoType.MGS3_SNEAKING)
+				e.menu_addItem_action("bm_camo_mgs3_tuxedo", e.bm_changeCamo, PlayerCamoType.MGS3_TUXEDO)
+				e.menu_addItem_action("bm_camo_eva_close", e.bm_changeCamo, PlayerCamoType.EVA_CLOSE)
+				e.menu_addItem_action("bm_camo_eva_open", e.bm_changeCamo, PlayerCamoType.EVA_OPEN)
+				e.menu_addItem_action("bm_camo_boss_close", e.bm_changeCamo, PlayerCamoType.BOSS_CLOSE)
+				e.menu_addItem_action("bm_camo_boss_open", e.bm_changeCamo, PlayerCamoType.BOSS_OPEN)
+			end
 		end
 	end
 end
@@ -258,7 +252,7 @@ function e.menu_draw()
 	end
 
 	TppUiCommand.SetStrongPrioTelopCast( true )
-	TppUiCommand.RegistTelopCast("LeftCenter", 9999, "bm_item_blank",
+	TppUiCommand.RegistTelopCast("RightCenter", 9999, "bm_item_blank",
 		menu_item_highlight[1],
 		menu_item_highlight[2],
 		menu_item_highlight[3],
@@ -267,7 +261,21 @@ function e.menu_draw()
 		menu_item_highlight[6],
 		0.8, 25.2
 	)
-	TppUiCommand.MoveTelopCast("LeftCenter", 0, -1.4)
+	TppUiCommand.MoveTelopCast("RightCenter", 0, -100.5)
+	TppUiCommand.RegistTelopCast("PageBreak",1)
+	TppUiCommand.StartTelopCast()
+	
+	TppUiCommand.SetStrongPrioTelopCast( true )
+	TppUiCommand.RegistTelopCast("RightUp", 9999, "bm_item_blank",
+		menu_item_highlight[7],
+		menu_item_highlight[8],
+		menu_item_highlight[9],
+		menu_item_highlight[10],
+		menu_item_highlight[11],
+		menu_item_highlight[12],
+		0.8, -12.2
+	)
+	TppUiCommand.MoveTelopCast("RightUp", 0, -100.5)
 	TppUiCommand.RegistTelopCast("PageBreak",1)
 	TppUiCommand.StartTelopCast()
 
@@ -283,11 +291,24 @@ function e.menu_draw()
 	)
 	TppUiCommand.RegistTelopCast("PageBreak",1)
 	TppUiCommand.StartTelopCast()
+	
+	TppUiCommand.SetStrongPrioTelopCast( false )
+	TppUiCommand.RegistTelopCast("LeftCenter", 9999, "bm_item_blank",
+		e.menu_items[7],
+		e.menu_items[8],
+		e.menu_items[9],
+		e.menu_items[10],
+		e.menu_items[11],
+		e.menu_items[12],
+		0.8, 12.5
+	)
+	TppUiCommand.RegistTelopCast("PageBreak",1)
+	TppUiCommand.StartTelopCast()
 end
 
 function e.menu_reset()
 	e.menu_count = 0
-	e.menu_items={"bm_item_blank", "bm_item_blank", "bm_item_blank", "bm_item_blank", "bm_item_blank", "bm_item_blank"}
+	e.menu_items={"bm_item_blank", "bm_item_blank", "bm_item_blank", "bm_item_blank", "bm_item_blank", "bm_item_blank", "bm_item_blank", "bm_item_blank", "bm_item_blank", "bm_item_blank", "bm_item_blank", "bm_item_blank"}
 	e.menu_items_action={}
 	e.menu_items_action_func={}
 	e.menu_items_action_param={}
@@ -362,7 +383,8 @@ function e.Update()
 					e.menu_item_highlighted = e.menu_count
 				end
 
-				TppUiCommand.EraseTelopCast("LeftCenter")
+				TppUiCommand.EraseTelopCast("RightCenter")
+				TppUiCommand.EraseTelopCast("RightUp")
 				e.menu_drawn = false
 			end
 
@@ -373,13 +395,20 @@ function e.Update()
 					e.menu_item_highlighted = 1
 				end
 				
-				TppUiCommand.EraseTelopCast("LeftCenter")
+				TppUiCommand.EraseTelopCast("RightCenter")
+				TppUiCommand.EraseTelopCast("RightUp")
 				e.menu_drawn = false
 				
 			end
 		end
 
 		if (not e.menu_drawn) then
+			Player.SetPadMask {
+				settingName	= "bm_disableStance",
+				except		= false,
+				buttons		= PlayerPad.STANCE + PlayerPad.PRIMARY_WEAPON + PlayerPad.SECONDARY_WEAPON,
+			}
+
 			if (e.menu_skip_frame > 0) then
 				if (os.clock() - e.menu_skip_frame > 0.30) then
 					e.menu_reset()
@@ -414,11 +443,6 @@ function e.Update()
 
 			if (bit.band(PlayerVars.scannedButtonsDirect,PlayerPad.PRIMARY_WEAPON)==PlayerPad.PRIMARY_WEAPON) then
 				e.menu_shutdown()
-				Player.SetPadMask {
-					settingName	= "bm_disableStance",
-					except		= false,
-					buttons		= PlayerPad.STANCE + PlayerPad.PRIMARY_WEAPON + PlayerPad.SECONDARY_WEAPON,
-				}
 				e.menu_open = not e.menu_open
 				e.menu_not_holding_open = false
 			end
