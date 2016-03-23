@@ -5,6 +5,9 @@ e.button_pressed={}
 e.button_pressed_time={}
 e.menu_skip_frame = 0
 
+e.bm_changedToBB = false
+e.bm_changedToBBoldType = PlayerType.SNAKE
+
 function e.OnAllocate()end
 function e.OnInitialize()end
 
@@ -46,6 +49,12 @@ function e.bm_changePlayerType()
 			vars.playerFaceId = e.bm_playerType_face
 		end
 	end
+	
+	if (e.bm_changedToBB) then
+		vars.playerPartsType = PlayerPartsType.NORMAL
+		vars.playerFaceId = 0
+		e.bm_changedToBB = false
+	end
 end
 
 function e.bm_changePlayerFace(changeby)
@@ -69,6 +78,27 @@ function e.bm_changePlayerFace(changeby)
 	TppUiCommand.AnnounceLogDelayTime(0)
 	TppUiCommand.AnnounceLogView(string.format("Face ID: %d", vars.playerFaceId))
 
+end
+
+function e.bm_changePlayerPart(playerpart)
+	vars.playerPartsType=playerpart
+end
+
+function e.bm_toggleScarf()
+	if (vars.playerPartsType ~= PlayerPartsType.NORMAL_SCARF) then
+		vars.playerPartsType = PlayerPartsType.NORMAL_SCARF
+	else
+		vars.playerPartsType = PlayerPartsType.NORMAL
+	end
+end
+
+function e.bm_changeCamoBB()
+	vars.playerType = PlayerType.DD_MALE
+	vars.playerFaceId = 400
+	vars.playerPartsType = PlayerPartsType.NORMAL
+	vars.playerPartsType = PlayerPartsType.SNEAKING_SUIT
+	e.bm_changedToBB = true
+	e.bm_changedToBBoldType = vars.playerType
 end
 
 function e.bm_changeCamo(camo)
@@ -101,8 +131,22 @@ function e.bm_changeCamo(camo)
 	end
 	
 	vars.playerCamoType=camo
-	vars.playerPartsType=PlayerPartsType.NORMAL
-	vars.playerFaceEquipId=0
+
+	if (vars.playerPartsType == PlayerPartsType.NORMAL_SCARF) then
+		vars.playerPartsType = PlayerPartsType.NORMAL
+		vars.playerPartsType = PlayerPartsType.NORMAL_SCARF
+	else
+		vars.playerPartsType = PlayerPartsType.NORMAL
+	end
+
+	vars.playerFaceEquipId = 0
+	
+	if (e.bm_changedToBB) then
+		vars.playerType = e.bm_changedToBBoldType
+		vars.playerPartsType = PlayerPartsType.NORMAL
+		vars.playerFaceId = 0
+		e.bm_changedToBB = false
+	end
 end
 
 function e.bm_changeWeather()
@@ -140,6 +184,21 @@ function e.bm_changeTimescale(changeby)
 	TppUiCommand.AnnounceLogView(string.format("Timescale: %d", e.bm_ClockTimeScale))
 end
 
+function e.bm_changeTime(timeString)
+
+	TppClock.SetTime(timeString)
+
+	TppUiCommand.AnnounceLogDelayTime(0)
+	TppUiCommand.AnnounceLogView(string.format("Time: %s", timeString))
+end
+
+function e.bm_padType()
+	TppUiCommand.AnnounceLogDelayTime(0)
+	TppUiCommand.AnnounceLogView(string.format("padType: %d", vars.padType))
+	TppUiCommand.AnnounceLogDelayTime(0)
+	TppUiCommand.AnnounceLogView(string.format("controlType: %d", cvars.controlType))
+end
+
 function e.menu_set()
 	e.menu_title = "bm_main_title"
 
@@ -148,7 +207,8 @@ function e.menu_set()
 		e.menu_addItem("bm_playerface")
 		e.menu_addItem("bm_camo")
 		e.menu_addItem("bm_weather")
-		e.menu_addItem("bm_timescale")
+		e.menu_addItem("bm_time")
+		e.menu_addItem_action("bm_main_title", e.bm_padType)
 	elseif (e.menu_level == 2) then
 		if (e.menu_last_selected[1] == 1) then
 			e.menu_title = "bm_playertype"
@@ -168,7 +228,12 @@ function e.menu_set()
 			e.menu_title = "bm_camo"
 			e.menu_addItem("bm_camo_normal")
 			e.menu_addItem("bm_camo_special")
+			e.menu_addItem("bm_camo_fob")
 			e.menu_addItem("bm_camo_dlc")
+			
+			if (vars.playerType == PlayerType.SNAKE or vars.playerType == PlayerType.AVATAR) then
+				e.menu_addItem_action("bm_camo_scarf", e.bm_toggleScarf)
+			end
 		elseif (e.menu_last_selected[1] == 4) then
 			e.menu_title = "bm_weather"
 			e.menu_addItem_action("bm_weather_sunny", e.bm_changeWeather)
@@ -178,12 +243,9 @@ function e.menu_set()
 			e.menu_addItem_action("bm_weather_foggy", e.bm_changeWeather)
 			e.menu_addItem_action("bm_reset", e.bm_changeWeather)
 		elseif (e.menu_last_selected[1] == 5) then
-			e.menu_title = "bm_timescale"
-			e.menu_addItem_action("bm_timescale_up_10", e.bm_changeTimescale, 10)
-			e.menu_addItem_action("bm_timescale_up_100", e.bm_changeTimescale, 100)
-			e.menu_addItem_action("bm_timescale_down_10", e.bm_changeTimescale, -10)
-			e.menu_addItem_action("bm_timescale_down_100", e.bm_changeTimescale, -100)	
-			e.menu_addItem_action("bm_reset", e.bm_changeTimescale)
+			e.menu_title = "bm_time"
+			e.menu_addItem("bm_time")
+			e.menu_addItem("bm_timescale")
 		end
 	elseif (e.menu_level == 3) then
 		if (e.menu_last_selected[1] == 3) then
@@ -202,6 +264,7 @@ function e.menu_set()
 				e.menu_addItem_action("bm_camo_panther", e.bm_changeCamo, PlayerCamoType.PANTHER)
 			elseif (e.menu_last_selected[2] == 2) then
 				e.menu_addItem_action("bm_camo_ss_gz", e.bm_changeCamo, PlayerCamoType.SNEAKING_SUIT_GZ)
+				e.menu_addItem_action("bm_camo_ss_gz_bb", e.bm_changeCamoBB)
 				e.menu_addItem_action("bm_camo_ss_tpp", e.bm_changeCamo, PlayerCamoType.SNEAKING_SUIT_TPP)
 				e.menu_addItem_action("bm_camo_battledress", e.bm_changeCamo, PlayerCamoType.BATTLEDRESS)
 				e.menu_addItem_action("bm_camo_parasite", e.bm_changeCamo, PlayerCamoType.PARASITE)
@@ -209,7 +272,25 @@ function e.menu_set()
 				e.menu_addItem_action("bm_camo_solid_snake", e.bm_changeCamo, PlayerCamoType.SOLIDSNAKE)
 				e.menu_addItem_action("bm_camo_ninja", e.bm_changeCamo, PlayerCamoType.NINJA)
 				e.menu_addItem_action("bm_camo_raiden", e.bm_changeCamo, PlayerCamoType.RAIDEN)
+				
+				if (vars.playerType == PlayerType.SNAKE or vars.playerType == PlayerType.AVATAR) then
+					e.menu_addItem_action("bm_camo_gold", e.bm_changeCamo, PlayerCamoType.GOLD)
+					e.menu_addItem_action("bm_camo_silver", e.bm_changeCamo, PlayerCamoType.SILVER)
+				end
 			elseif (e.menu_last_selected[2] == 3) then
+				e.menu_addItem_action("bm_camo_woodland_fleck", e.bm_changeCamo, PlayerCamoType.C23)
+				e.menu_addItem_action("bm_camo_ambush", e.bm_changeCamo, PlayerCamoType.C24)
+				e.menu_addItem_action("bm_camo_solum", e.bm_changeCamo, PlayerCamoType.C27)
+				e.menu_addItem_action("bm_camo_dead_leaf", e.bm_changeCamo, PlayerCamoType.C29)
+				e.menu_addItem_action("bm_camo_lichen", e.bm_changeCamo, PlayerCamoType.C30)
+				e.menu_addItem_action("bm_camo_stone", e.bm_changeCamo, PlayerCamoType.C35)
+				e.menu_addItem_action("bm_camo_white", e.bm_changeCamo, PlayerCamoType.C38)
+				e.menu_addItem_action("bm_camo_pink", e.bm_changeCamo, PlayerCamoType.C39)
+				e.menu_addItem_action("bm_camo_red", e.bm_changeCamo, PlayerCamoType.C42)
+				e.menu_addItem_action("bm_camo_blue", e.bm_changeCamo, PlayerCamoType.C46)
+				e.menu_addItem_action("bm_camo_grey", e.bm_changeCamo, PlayerCamoType.C49)
+				e.menu_addItem_action("bm_camo_tselinoyarsk", e.bm_changeCamo, PlayerCamoType.C52)
+			elseif (e.menu_last_selected[2] == 4) then
 				e.menu_addItem_action("bm_camo_mgs3", e.bm_changeCamo, PlayerCamoType.MGS3)
 				e.menu_addItem_action("bm_camo_mgs3_naked", e.bm_changeCamo, PlayerCamoType.MGS3_NAKED)
 				e.menu_addItem_action("bm_camo_mgs3_sneaking", e.bm_changeCamo, PlayerCamoType.MGS3_SNEAKING)
@@ -218,6 +299,53 @@ function e.menu_set()
 				e.menu_addItem_action("bm_camo_eva_open", e.bm_changeCamo, PlayerCamoType.EVA_OPEN)
 				e.menu_addItem_action("bm_camo_boss_close", e.bm_changeCamo, PlayerCamoType.BOSS_CLOSE)
 				e.menu_addItem_action("bm_camo_boss_open", e.bm_changeCamo, PlayerCamoType.BOSS_OPEN)
+			end
+		elseif (e.menu_last_selected[1] == 5) then
+			if (e.menu_last_selected[2] == 1) then
+				e.menu_title = "bm_time"
+				e.menu_addItem("bm_time_group1")
+				e.menu_addItem("bm_time_group2")
+			elseif (e.menu_last_selected[2] == 2) then
+				e.menu_title = "bm_timescale"
+				e.menu_addItem_action("bm_timescale_up_10", e.bm_changeTimescale, 10)
+				e.menu_addItem_action("bm_timescale_up_100", e.bm_changeTimescale, 100)
+				e.menu_addItem_action("bm_timescale_down_10", e.bm_changeTimescale, -10)
+				e.menu_addItem_action("bm_timescale_down_100", e.bm_changeTimescale, -100)	
+				e.menu_addItem_action("bm_reset", e.bm_changeTimescale)
+			end
+		end
+	elseif (e.menu_level == 4) then
+		if (e.menu_last_selected[1] == 5) then
+			if (e.menu_last_selected[2] == 1) then
+				e.menu_title = "bm_time"
+
+				if (e.menu_last_selected[3] == 1) then
+					e.menu_addItem_action("bm_time_01", e.bm_changeTime, "01:00:00")
+					e.menu_addItem_action("bm_time_02", e.bm_changeTime, "02:00:00")
+					e.menu_addItem_action("bm_time_03", e.bm_changeTime, "03:00:00")
+					e.menu_addItem_action("bm_time_04", e.bm_changeTime, "04:00:00")
+					e.menu_addItem_action("bm_time_05", e.bm_changeTime, "05:00:00")
+					e.menu_addItem_action("bm_time_06", e.bm_changeTime, "06:00:00")
+					e.menu_addItem_action("bm_time_07", e.bm_changeTime, "07:00:00")
+					e.menu_addItem_action("bm_time_08", e.bm_changeTime, "08:00:00")
+					e.menu_addItem_action("bm_time_09", e.bm_changeTime, "09:00:00")
+					e.menu_addItem_action("bm_time_10", e.bm_changeTime, "10:00:00")
+					e.menu_addItem_action("bm_time_11", e.bm_changeTime, "11:00:00")
+					e.menu_addItem_action("bm_time_12", e.bm_changeTime, "12:00:00")
+				elseif (e.menu_last_selected[3] == 2) then
+					e.menu_addItem_action("bm_time_13", e.bm_changeTime, "13:00:00")
+					e.menu_addItem_action("bm_time_14", e.bm_changeTime, "14:00:00")
+					e.menu_addItem_action("bm_time_15", e.bm_changeTime, "15:00:00")
+					e.menu_addItem_action("bm_time_16", e.bm_changeTime, "16:00:00")
+					e.menu_addItem_action("bm_time_17", e.bm_changeTime, "17:00:00")
+					e.menu_addItem_action("bm_time_18", e.bm_changeTime, "18:00:00")
+					e.menu_addItem_action("bm_time_19", e.bm_changeTime, "19:00:00")
+					e.menu_addItem_action("bm_time_20", e.bm_changeTime, "20:00:00")
+					e.menu_addItem_action("bm_time_21", e.bm_changeTime, "21:00:00")
+					e.menu_addItem_action("bm_time_22", e.bm_changeTime, "22:00:00")
+					e.menu_addItem_action("bm_time_23", e.bm_changeTime, "23:00:00")
+					e.menu_addItem_action("bm_time_00", e.bm_changeTime, "00:00:00")
+				end
 			end
 		end
 	end

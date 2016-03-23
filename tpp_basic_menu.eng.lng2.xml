@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LangFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Endianess="BigEndian">
+  <Entries>
+    <Entry LangId="bm_main_title" Color="1" Value="Basic In Game Menu" />
+    <Entry LangId="bm_playertype" Color="1" Value="Player Type" />
+    <Entry LangId="bm_playertype_snake" Color="1" Value="Snake" />
+    <Entry LangId="bm_playertype_dd_male" Color="1" Value="DD Male" />
+    <Entry LangId="bm_playertype_dd_female" Color="1" Value="DD Female" />
+    <Entry LangId="bm_playertype_avatar" Color="1" Value="Avatar" />
+    <Entry LangId="bm_playerface" Color="1" Value="Player Face ID" />
+    <Entry LangId="bm_playerface_up_1" Color="1" Value="Face ID Up 1" />
+    <Entry LangId="bm_playerface_up_10" Color="1" Value="Face ID Up 10" />
+    <Entry LangId="bm_playerface_up_100" Color="1" Value="Face ID Up 100" />
+    <Entry LangId="bm_playerface_down_1" Color="1" Value="Face ID Down 1" />
+    <Entry LangId="bm_playerface_down_10" Color="1" Value="Face ID Down 10" />
+    <Entry LangId="bm_playerface_down_100" Color="1" Value="Face ID Down 100" />
+    <Entry LangId="bm_playerpart_hand" Color="1" Value="Player Hand/Parts" />
+    <Entry LangId="bm_playerpart_normal" Color="1" Value="Part Normal" />
+    <Entry LangId="bm_playerpart_scarf" Color="1" Value="Part Scarf" />
+    <Entry LangId="bm_playerpart_sneak" Color="1" Value="Part Sneaking Suit" />
+    <Entry LangId="bm_playerpart_mgs1" Color="1" Value="Part MGS1" />
+    <Entry LangId="bm_playerhand_normal" Color="1" Value="Hand Normal" />
+    <Entry LangId="bm_playerhand_stun" Color="1" Value="Hand Stun" />
+    <Entry LangId="bm_playerhand_jehuty" Color="1" Value="Hand Jehuty" />
+    <Entry LangId="bm_playerhand_stunrocket" Color="1" Value="Hand Stun Rocket" />
+    <Entry LangId="bm_playerhand_killrocket" Color="1" Value="Hand Explosive Rocket" />
+    <Entry LangId="bm_camo" Color="1" Value="Camos" />
+    <Entry LangId="bm_camo_normal" Color="1" Value="Normal" />
+    <Entry LangId="bm_camo_special" Color="1" Value="Special" />
+    <Entry LangId="bm_camo_dlc" Color="1" Value="DLC" />
+    <Entry LangId="bm_camo_scarf" Color="1" Value="Toggle Scarf" />
+    <Entry LangId="bm_camo_fob" Color="1" Value="FOB Event" />
+    <Entry LangId="bm_camo_olivedrab" Color="1" Value="Olivedrab" />
+    <Entry LangId="bm_camo_splitter" Color="1" Value="Splitter" />
+    <Entry LangId="bm_camo_square" Color="1" Value="Square" />
+    <Entry LangId="bm_camo_tigerstripe" Color="1" Value="Tigerstripe" />
+    <Entry LangId="bm_camo_goldtiger" Color="1" Value="Goldtiger" />
+    <Entry LangId="bm_camo_foxtrot" Color="1" Value="Foxtrot" />
+    <Entry LangId="bm_camo_woodland" Color="1" Value="Woodland" />
+    <Entry LangId="bm_camo_wetwork" Color="1" Value="Wetwork" />
+    <Entry LangId="bm_camo_ss_gz" Color="1" Value="Sneaking Suit GZ" />
+    <Entry LangId="bm_camo_ss_gz_bb" Color="1" Value="Sneaking Suit GZ (no horn/scars)" />
+    <Entry LangId="bm_camo_ss_tpp" Color="1" Value="Sneaking Suit TPP" />
+    <Entry LangId="bm_camo_battledress" Color="1" Value="Battledress" />
+    <Entry LangId="bm_camo_parasite" Color="1" Value="Parasite" />
+    <Entry LangId="bm_camo_leather" Color="1" Value="Leather" />
+    <Entry LangId="bm_camo_solid_snake" Color="1" Value="Solid Snake" />
+    <Entry LangId="bm_camo_ninja" Color="1" Value="Ninja" />
+    <Entry LangId="bm_camo_raiden" Color="1" Value="Raiden" />
+    <Entry LangId="bm_camo_gold" Color="1" Value="Gold" />
+    <Entry LangId="bm_camo_silver" Color="1" Value="Silver" />
+    <Entry LangId="bm_camo_realtree" Color="1" Value="Realtree" />
+    <Entry LangId="bm_camo_panther" Color="1" Value="Panther" />
+    <Entry LangId="bm_camo_mgs3" Color="1" Value="MGS3" />
+    <Entry LangId="bm_camo_mgs3_naked" Color="1" Value="MGS3 Naked" />
+    <Entry LangId="bm_camo_mgs3_sneaking" Color="1" Value="MGS3 Sneaking" />
+    <Entry LangId="bm_camo_mgs3_tuxedo" Color="1" Value="MGS3 Tuxedo" />
+    <Entry LangId="bm_camo_eva_close" Color="1" Value="EVA Closed" />
+    <Entry LangId="bm_camo_eva_open" Color="1" Value="EVA Open" />
+    <Entry LangId="bm_camo_boss_close" Color="1" Value="Boss Closed" />
+    <Entry LangId="bm_camo_boss_open" Color="1" Value="Boss Open" />
+    <Entry LangId="bm_camo_woodland_fleck" Color="1" Value="Woodland Fleck" />
+    <Entry LangId="bm_camo_ambush" Color="1" Value="Ambush" />
+    <Entry LangId="bm_camo_solum" Color="1" Value="Solum" />
+    <Entry LangId="bm_camo_dead_leaf" Color="1" Value="Dead Leaf" />
+    <Entry LangId="bm_camo_lichen" Color="1" Value="Lichen" />
+    <Entry LangId="bm_camo_stone" Color="1" Value="Stone" />
+    <Entry LangId="bm_camo_white" Color="1" Value="White" />
+    <Entry LangId="bm_camo_pink" Color="1" Value="Pink" />
+    <Entry LangId="bm_camo_red" Color="1" Value="Red" />
+    <Entry LangId="bm_camo_blue" Color="1" Value="Blue" />
+    <Entry LangId="bm_camo_grey" Color="1" Value="Grey" />
+    <Entry LangId="bm_camo_tselinoyarsk" Color="1" Value="Tselinoyarsk" />
+    <Entry LangId="bm_weather" Color="1" Value="Weather" />
+    <Entry LangId="bm_weather_sunny" Color="1" Value="Sunny" />
+    <Entry LangId="bm_weather_cloudy" Color="1" Value="Cloudy" />
+    <Entry LangId="bm_weather_rainy" Color="1" Value="Rainy" />
+    <Entry LangId="bm_weather_sandstorm" Color="1" Value="Sandstorm" />
+    <Entry LangId="bm_weather_foggy" Color="1" Value="Foggy" />
+    <Entry LangId="bm_time" Color="1" Value="Time" />
+    <Entry LangId="bm_time_group1" Color="1" Value="01:00-12:00" />
+    <Entry LangId="bm_time_group2" Color="1" Value="13:00-00:00" />
+    <Entry LangId="bm_time_00" Color="1" Value="00:00" />
+    <Entry LangId="bm_time_01" Color="1" Value="01:00" />
+    <Entry LangId="bm_time_02" Color="1" Value="02:00" />
+    <Entry LangId="bm_time_03" Color="1" Value="03:00" />
+    <Entry LangId="bm_time_04" Color="1" Value="04:00" />
+    <Entry LangId="bm_time_05" Color="1" Value="05:00" />
+    <Entry LangId="bm_time_06" Color="1" Value="06:00" />
+    <Entry LangId="bm_time_07" Color="1" Value="07:00" />
+    <Entry LangId="bm_time_08" Color="1" Value="08:00" />
+    <Entry LangId="bm_time_09" Color="1" Value="09:00" />
+    <Entry LangId="bm_time_10" Color="1" Value="10:00" />
+    <Entry LangId="bm_time_11" Color="1" Value="11:00" />
+    <Entry LangId="bm_time_12" Color="1" Value="12:00" />
+    <Entry LangId="bm_time_13" Color="1" Value="13:00" />
+    <Entry LangId="bm_time_14" Color="1" Value="14:00" />
+    <Entry LangId="bm_time_15" Color="1" Value="15:00" />
+    <Entry LangId="bm_time_16" Color="1" Value="16:00" />
+    <Entry LangId="bm_time_17" Color="1" Value="17:00" />
+    <Entry LangId="bm_time_18" Color="1" Value="18:00" />
+    <Entry LangId="bm_time_19" Color="1" Value="19:00" />
+    <Entry LangId="bm_time_20" Color="1" Value="20:00" />
+    <Entry LangId="bm_time_21" Color="1" Value="21:00" />
+    <Entry LangId="bm_time_22" Color="1" Value="22:00" />
+    <Entry LangId="bm_time_23" Color="1" Value="23:00" />
+    <Entry LangId="bm_timescale" Color="1" Value="Timescale" />
+    <Entry LangId="bm_timescale_up_10" Color="1" Value="Timescale Up 10" />
+    <Entry LangId="bm_timescale_up_100" Color="1" Value="Timescale Up 100" />
+    <Entry LangId="bm_timescale_down_10" Color="1" Value="Timescale Down 10" />
+    <Entry LangId="bm_timescale_down_100" Color="1" Value="Timescale Down 100" />
+    <Entry LangId="bm_next" Color="1" Value="Next Page" />
+    <Entry LangId="bm_reset" Color="1" Value="Reset" />
+    <Entry LangId="bm_item_blank" Color="1" Value=" " />
+    <Entry LangId="bm_item_highlight" Color="1" Value="-" />
+  </Entries>
+</LangFile>
